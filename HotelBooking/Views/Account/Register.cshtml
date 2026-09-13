@@ -1,0 +1,139 @@
+﻿@model HotelBooking.ViewModels.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Create Account";
+}
+
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h2>Create Your Account</h2>
+            <p>Join us and start booking your perfect stay</p>
+        </div>
+
+        <form asp-action="Register" asp-controller="Account" method="post" class="auth-form">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger d-none-empty"></div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Name" class="form-control" placeholder="Full Name" />
+                <label asp-for="Name">Full Name</label>
+                <span asp-validation-for="Name" class="text-danger small"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Email" class="form-control" placeholder="Email" />
+                <label asp-for="Email">Email Address</label>
+                <span asp-validation-for="Email" class="text-danger small"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Password" class="form-control" placeholder="Password" />
+                <label asp-for="Password">Password</label>
+                <span asp-validation-for="Password" class="text-danger small"></span>
+            </div>
+
+            <div class="form-floating mb-4">
+                <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Password" />
+                <label asp-for="ConfirmPassword">Confirm Password</label>
+                <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+            </div>
+
+            <button type="submit" class="btn btn-auth w-100">Create Account</button>
+        </form>
+
+        <p class="auth-footer">
+            Already have an account? <a asp-action="Login" asp-controller="Account">Sign in</a>
+        </p>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<style>
+    .auth-wrapper {
+        min-height: 85vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .auth-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        padding: 2.5rem 2.5rem;
+        width: 100%;
+        max-width: 440px;
+    }
+
+    .auth-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .auth-header h2 {
+        font-weight: 700;
+        color: #2d2d3a;
+        margin-bottom: 0.4rem;
+    }
+
+    .auth-header p {
+        color: #8a8a99;
+        font-size: 0.95rem;
+        margin: 0;
+    }
+
+    .auth-form .form-control {
+        border-radius: 10px;
+        border: 1px solid #e2e2ea;
+        padding: 0.9rem 1rem;
+    }
+
+    .auth-form .form-control:focus {
+        border-color: #764ba2;
+        box-shadow: 0 0 0 0.2rem rgba(118, 75, 162, 0.15);
+    }
+
+    .btn-auth {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        padding: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        transition: opacity 0.2s ease;
+    }
+
+    .btn-auth:hover {
+        opacity: 0.9;
+        color: #fff;
+    }
+
+    .auth-footer {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: #8a8a99;
+        font-size: 0.9rem;
+    }
+
+    .auth-footer a {
+        color: #764ba2;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .auth-footer a:hover {
+        text-decoration: underline;
+    }
+
+    .d-none-empty:empty {
+        display: none;
+    }
+</style>

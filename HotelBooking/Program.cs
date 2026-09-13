@@ -28,6 +28,9 @@ namespace HotelBooking
 
             var app = builder.Build();
 
+            // Seed Admin User
+            DbInitializer.Seed(app.Services);
+
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {

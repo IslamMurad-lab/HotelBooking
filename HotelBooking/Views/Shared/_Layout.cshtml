@@ -11,21 +11,63 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">HotelBooking</a>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom mb-3 py-3">
+            <div class="container-fluid px-4">
+                <a class="navbar-brand fw-bold fs-4" asp-area="" asp-controller="Home" asp-action="Index">
+                    <span style="color:#667eea">Hotel</span><span style="color:#764ba2">Booking</span>
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="navbar-nav flex-grow-1 align-items-center">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link nav-custom" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link nav-custom" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+
+                        @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link nav-custom" asp-controller="AdminHotels" asp-action="Index">Manage Hotels</a>
+                            </li>
+                        }
+
+                        @if (User.Identity != null && User.Identity.IsAuthenticated && !User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link nav-custom" asp-controller="CustomerBookings" asp-action="Index">My Bookings</a>
+                            </li>
+                        }
+                    </ul>
+
+                    <ul class="navbar-nav align-items-center">
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item d-flex align-items-center me-3">
+                                <span class="user-badge">
+                                    <i class="user-avatar">@User.Identity.Name?.Substring(0, 1).ToUpper()</i>
+                                    @User.Identity.Name
+                                </span>
+                            </li>
+                            <li class="nav-item">
+                                <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-logout btn-sm">Logout</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link nav-custom" asp-controller="Account" asp-action="Login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn btn-register btn-sm ms-2" asp-controller="Account" asp-action="Register">Register</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
@@ -48,3 +90,72 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+<style>
+    .nav-custom {
+        color: #4a4a58 !important;
+        font-weight: 500;
+        padding: 0.5rem 1rem !important;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+    }
+
+        .nav-custom:hover {
+            color: #764ba2 !important;
+            background-color: #f4f1fb;
+        }
+
+    .btn-register {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff !important;
+        border: none;
+        border-radius: 8px;
+        padding: 0.5rem 1.2rem;
+        font-weight: 600;
+        transition: opacity 0.2s ease;
+    }
+
+        .btn-register:hover {
+            opacity: 0.9;
+            color: #fff !important;
+        }
+
+    .btn-logout {
+        border: 1px solid #e2e2ea;
+        color: #8a8a99;
+        border-radius: 8px;
+        padding: 0.4rem 1rem;
+        font-weight: 500;
+        background: transparent;
+        transition: all 0.2s ease;
+    }
+
+        .btn-logout:hover {
+            border-color: #dc3545;
+            color: #dc3545;
+            background-color: #fff5f5;
+        }
+
+    .user-badge {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 600;
+        color: #2d2d3a;
+        font-size: 0.9rem;
+    }
+
+    .user-avatar {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 0.85rem;
+    }
+</style>

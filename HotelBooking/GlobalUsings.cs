@@ -5,3 +5,6 @@ global using Microsoft.AspNetCore.Authentication.Cookies;
 global using Microsoft.AspNetCore.Identity;
 global using HotelBooking.Models;
 global using HotelBooking.Data;
+global using System.Security.Claims;
+global using Microsoft.AspNetCore.Authentication;
+global using HotelBooking.ViewModels;
