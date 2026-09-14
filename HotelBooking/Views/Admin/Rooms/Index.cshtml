@@ -1,0 +1,35 @@
+﻿@model List<HotelBooking.Models.Room>
+
+<h1>Rooms</h1>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Room Number</th>
+            <th>Type</th>
+            <th>Price Per Night</th>
+            <th>Active</th>
+            <th>Hotel</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var room in Model)
+        {
+            <tr>
+                <td>@room.Id</td>
+                <td>@room.RoomNumber</td>
+                <td>@room.Type</td>
+                <td>@room.PricePerNight</td>
+                <td>@room.IsActive</td>
+                <td>@room.Hotel.Name</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@room.Id">Details</a>
+                    <a asp-action="Edit" asp-route-id="@room.Id">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@room.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

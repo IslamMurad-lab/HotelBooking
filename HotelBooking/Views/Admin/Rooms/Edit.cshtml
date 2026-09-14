@@ -1,0 +1,27 @@
+﻿@model HotelBooking.ViewModels.RoomCreateViewModel
+
+<form method="post">
+    <input type="hidden" asp-for="Room.Id" />
+
+    <label>Room Number</label>
+    <input asp-for="Room.RoomNumber" />
+
+    <label>Type</label>
+    <input asp-for="Room.Type" />
+
+    <label>Price Per Night</label>
+    <input asp-for="Room.PricePerNight" />
+
+    <label>Hotel</label>
+    <select asp-for="Room.HotelId">
+        @foreach (var hotel in Model.Hotels)
+        {
+            <option value="@hotel.Id">@hotel.Name</option>
+        }
+    </select>
+
+    <label>Active</label>
+    <input asp-for="Room.IsActive" type="checkbox" />
+
+    <button type="submit">Save Changes</button>
+</form>

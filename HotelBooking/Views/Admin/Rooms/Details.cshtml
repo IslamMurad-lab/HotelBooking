@@ -1,0 +1,12 @@
+﻿@model HotelBooking.Models.Room
+<h2>Room Details</h2>
+
+<p>Room Number: @Model.RoomNumber</p>
+<p>Type: @Model.Type</p>
+<p>Price Per Night: @Model.PricePerNight</p>
+<p>Active: @Model.IsActive</p>
+<p>Hotel: @Model.Hotel.Name</p>
+
+<a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+<a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+<a asp-action="Index">Back</a>
