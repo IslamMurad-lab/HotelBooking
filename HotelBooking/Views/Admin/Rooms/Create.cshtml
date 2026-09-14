@@ -1,0 +1,150 @@
+﻿@model HotelBooking.ViewModels.RoomCreateViewModel
+
+@{
+    ViewData["Title"] = "Create Room";
+}
+
+<div class="room-wrapper">
+    <div class="room-card">
+        <div class="room-header">
+            <h2>Create Room</h2>
+            <p>Add a new room to your hotel</p>
+        </div>
+
+        <form asp-action="Create" method="post" class="room-form">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger d-none-empty"></div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Room.RoomNumber" class="form-control" placeholder="Room Number" />
+                <label asp-for="Room.RoomNumber">Room Number</label>
+                <span asp-validation-for="Room.RoomNumber" class="text-danger small"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Room.Type" class="form-control" placeholder="Room Type" />
+                <label asp-for="Room.Type">Room Type</label>
+                <span asp-validation-for="Room.Type" class="text-danger small"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Room.PricePerNight" class="form-control" placeholder="Price Per Night" />
+                <label asp-for="Room.PricePerNight">Price Per Night</label>
+                <span asp-validation-for="Room.PricePerNight" class="text-danger small"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <select asp-for="Room.HotelId" class="form-select">
+                    <option value="">Select Hotel</option>
+                    @foreach (var hotel in Model.Hotels)
+                    {
+                        <option value="@hotel.Id">@hotel.Name</option>
+                    }
+                </select>
+                <label asp-for="Room.HotelId">Hotel</label>
+                <span asp-validation-for="Room.HotelId" class="text-danger small"></span>
+            </div>
+
+            <div class="form-check mb-4">
+                <input asp-for="Room.IsActive" class="form-check-input" />
+                <label asp-for="Room.IsActive" class="form-check-label">Active Room</label>
+            </div>
+
+            <button type="submit" class="btn btn-room w-100">Create Room</button>
+        </form>
+
+        <div class="room-footer">
+            <a asp-action="Index">Back to Rooms</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<style>
+    .room-wrapper {
+        min-height: 85vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .room-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        padding: 2.5rem;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .room-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+        .room-header h2 {
+            font-weight: 700;
+            color: #2d2d3a;
+            margin-bottom: 0.4rem;
+        }
+
+        .room-header p {
+            color: #8a8a99;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+    .room-form .form-control,
+    .room-form .form-select {
+        border-radius: 10px;
+        border: 1px solid #e2e2ea;
+    }
+
+        .room-form .form-control:focus,
+        .room-form .form-select:focus {
+            border-color: #764ba2;
+            box-shadow: 0 0 0 0.2rem rgba(118, 75, 162, 0.15);
+        }
+
+    .btn-room {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        padding: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        transition: opacity 0.2s ease;
+    }
+
+        .btn-room:hover {
+            opacity: 0.9;
+            color: #fff;
+        }
+
+    .room-footer {
+        text-align: center;
+        margin-top: 1.5rem;
+    }
+
+        .room-footer a {
+            color: #764ba2;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+            .room-footer a:hover {
+                text-decoration: underline;
+            }
+
+    .d-none-empty:empty {
+        display: none;
+    }
+</style>
