@@ -1,8 +1,10 @@
 ﻿using HotelBooking.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelBooking.Controllers.Admin
 {
+    [Authorize(Roles = "Admin")]
     public class AdminRoomsController : Controller
     {
         private readonly ApplicationDbContext db;
@@ -12,7 +14,6 @@ namespace HotelBooking.Controllers.Admin
             this.db = db;
         }
 
-        
         public IActionResult Index()
         {
             var rooms = db.Rooms
@@ -32,8 +33,15 @@ namespace HotelBooking.Controllers.Admin
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(RoomCreateViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                model.Hotels = db.Hotels.ToList();
+                return View("~/Views/Admin/Rooms/Create.cshtml", model);
+            }
+
             db.Rooms.Add(model.Room);
             db.SaveChanges();
 
@@ -57,8 +65,15 @@ namespace HotelBooking.Controllers.Admin
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(RoomCreateViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                model.Hotels = db.Hotels.ToList();
+                return View("~/Views/Admin/Rooms/Edit.cshtml", model);
+            }
+
             db.Rooms.Update(model.Room);
             db.SaveChanges();
 
@@ -76,7 +91,7 @@ namespace HotelBooking.Controllers.Admin
 
             return View("~/Views/Admin/Rooms/Details.cshtml", room);
         }
-
+        [HttpGet]
         public IActionResult Delete(int id)
         {
             var room = db.Rooms.Find(id);
@@ -88,14 +103,18 @@ namespace HotelBooking.Controllers.Admin
         }
 
         [HttpPost]
-        public IActionResult Delete(Room room)
+        [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int id)
         {
+            var room = db.Rooms.Find(id);
+            if (room == null)
+                return NotFound();
+
             db.Rooms.Remove(room);
             db.SaveChanges();
 
             return RedirectToAction("Index");
         }
-
-
     }
-}
+}   
