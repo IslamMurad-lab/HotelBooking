@@ -1,0 +1,159 @@
+@model HotelBooking.Models.Room
+
+@{
+    ViewData["Title"] = "Room Details";
+}
+
+<div class="room-wrapper">
+    <div class="room-card">
+        <div class="room-header">
+            <h2>Room Details</h2>
+            <p>Review details before booking</p>
+        </div>
+
+        <div class="room-details">
+            <div class="detail-row">
+                <span>Room Number</span>
+                <strong>@Model.RoomNumber</strong>
+            </div>
+
+            <div class="detail-row">
+                <span>Hotel</span>
+                <strong>@Model.Hotel?.Name</strong>
+            </div>
+
+            <div class="detail-row">
+                <span>Room Type</span>
+                <strong>@Model.Type</strong>
+            </div>
+
+            <div class="detail-row">
+                <span>Price Per Night</span>
+                <strong>$@Model.PricePerNight</strong>
+            </div>
+        </div>
+
+
+        <!--book button-->
+        <div class="room-actions">
+            <a asp-controller="CustomerBookings" asp-action="Create" asp-route-roomId="@Model.Id" class="btn btn-book">
+                Book Now
+            </a>
+            <!--Back to list button-->
+            <a asp-action="Index" class="btn btn-secondary">
+                Back
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .room-wrapper {
+        min-height: 85vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .room-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        padding: 2.5rem;
+        width: 100%;
+        max-width: 550px;
+    }
+
+    .room-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .room-header h2 {
+        font-weight: 700;
+        color: #2d2d3a;
+        margin-bottom: 0.4rem;
+    }
+
+    .room-header p {
+        color: #8a8a99;
+        font-size: 0.95rem;
+        margin: 0;
+    }
+
+    .room-details {
+        background: #f8f8fc;
+        border-radius: 12px;
+        padding: 1rem 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .detail-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.85rem 0;
+        border-bottom: 1px solid #e2e2ea;
+    }
+
+    .detail-row:last-child {
+        border-bottom: none;
+    }
+
+    .detail-row span {
+        color: #8a8a99;
+    }
+
+    .detail-row strong {
+        color: #2d2d3a;
+        text-align: right;
+    }
+
+    .room-actions {
+        display: flex;
+        gap: 0.75rem;
+    }
+
+    .room-actions .btn {
+        flex: 1;
+        text-align: center;
+        border-radius: 10px;
+        padding: 0.75rem;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .btn-book {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+    }
+
+    .btn-book:hover {
+        opacity: 0.9;
+        color: #fff;
+    }
+
+    .btn-secondary {
+        background: #e2e2ea;
+        color: #2d2d3a;
+    }
+
+    @@media (max-width: 576px) {
+        .room-card {
+            padding: 1.5rem;
+        }
+
+        .detail-row {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .detail-row strong {
+            text-align: left;
+        }
+    }
+</style>
