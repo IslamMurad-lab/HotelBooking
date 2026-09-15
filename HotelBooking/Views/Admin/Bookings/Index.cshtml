@@ -1,0 +1,210 @@
+?@model List<HotelBooking.Models.Booking>
+
+    @{
+    ViewData["Title"] = "Bookings";
+    }
+
+    <div class="bookings-wrapper">
+        <div class="bookings-header">
+            <div>
+                <h2>Bookings</h2>
+                <p>Manage all hotel bookings</p>
+            </div>
+        </div>
+
+        <div class="bookings-card">
+            <div class="table-responsive">
+                <table class="table bookings-table align-middle">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer</th>
+                            <th>Hotel</th>
+                            <th>Room</th>
+                            <th>Check In</th>
+                            <th>Check Out</th>
+                            <th>Total Price</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var booking in Model)
+                    {
+                        <tr>
+                            <td>@booking.Id</td>
+                            <td>@booking.User?.Name</td>
+                            <td>@booking.Room?.Hotel?.Name</td>
+                            <td>@booking.Room?.RoomNumber</td>
+                            <td>@booking.CheckInDate.ToString("dd/MM/yyyy")</td>
+                            <td>@booking.CheckOutDate.ToString("dd/MM/yyyy")</td>
+                            <td>@booking.TotalPrice</td>
+
+                            <td>
+                                @if (booking.Status == "Confirmed")
+                                {
+                                <span class="status confirmed">Confirmed</span>
+                                }
+                                else if (booking.Status == "Cancelled")
+                                {
+                                <span class="status cancelled">Cancelled</span>
+                                }
+                                else if (booking.Status == "Completed")
+                                {
+                                <span class="status completed">Completed</span>
+                                }
+                                else
+                                {
+                                <span class="status pending">Pending</span>
+                                }
+                            </td>
+
+                            <td>
+                                <div class="action-buttons">
+                                    <a asp-action="Details"
+                                       asp-route-id="@booking.Id"
+                                       class="btn btn-sm btn-details">
+                                        Details
+                                    </a>
+
+                                    <a asp-action="Edit"
+                                       asp-route-id="@booking.Id"
+                                       class="btn btn-sm btn-edit">
+                                        Edit
+                                    </a>
+
+                                    <a asp-action="Delete"
+                                       asp-route-id="@booking.Id"
+                                       class="btn btn-sm btn-delete">
+                                        Delete
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .bookings-wrapper {
+            padding: 2rem 1rem;
+            min-height: 85vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .bookings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+            .bookings-header h2 {
+                color: #fff;
+                font-weight: 700;
+                margin-bottom: 0.4rem;
+            }
+
+            .bookings-header p {
+                color: rgba(255, 255, 255, 0.85);
+                margin: 0;
+            }
+
+        .bookings-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            padding: 1.5rem;
+        }
+
+        .bookings-table {
+            margin-bottom: 0;
+            white-space: nowrap;
+        }
+
+            .bookings-table thead th {
+                color: #2d2d3a;
+                font-weight: 700;
+                border-bottom: 2px solid #e2e2ea;
+            }
+
+            .bookings-table tbody td {
+                color: #555;
+                vertical-align: middle;
+            }
+
+            .bookings-table tbody tr:hover {
+                background-color: #f8f8fc;
+            }
+
+        .status {
+            display: inline-block;
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+            .status.pending {
+                background: #fef3c7;
+                color: #92400e;
+            }
+
+            .status.confirmed {
+                background: #d1fae5;
+                color: #047857;
+            }
+
+            .status.cancelled {
+                background: #fee2e2;
+                color: #b91c1c;
+            }
+
+            .status.completed {
+                background: #e0e7ff;
+                color: #4338ca;
+            }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+
+            .action-buttons .btn {
+                border-radius: 8px;
+                font-weight: 600;
+            }
+
+        .btn-details {
+            background: #e0e7ff;
+            color: #4338ca;
+        }
+
+        .btn-edit {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .btn-delete {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+            .btn-details:hover,
+            .btn-edit:hover,
+            .btn-delete:hover {
+                opacity: 0.85;
+            }
+
+        @@media (max-width: 768px) {
+            .bookings-card {
+                padding: 1rem;
+            }
+        }
+    </style>
