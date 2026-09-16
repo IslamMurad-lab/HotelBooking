@@ -1,0 +1,49 @@
+﻿@model HotelBooking.Models.Hotel
+
+@{
+    ViewData["Title"] = "Hotel Details";
+}
+
+<h2>Hotel Details</h2>
+
+<div>
+    <h4>@Model.Name</h4>
+
+    <p><strong>Address:</strong> @Model.Address</p>
+    <p><strong>City:</strong> @Model.City</p>
+    <p><strong>Description:</strong> @Model.Description</p>
+    <p><strong>Created At:</strong> @Model.CreatedAt</p>
+</div>
+<h4>Rooms</h4>
+
+@if (Model.Rooms.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Room Number</th>
+                <th>Type</th>
+                <th>Price Per Night</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var room in Model.Rooms)
+            {
+                <tr>
+                    <td>@room.RoomNumber</td>
+                    <td>@room.Type</td>
+                    <td>@room.PricePerNight</td>
+                    <td>@(room.IsActive ? "Active" : "Inactive")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No rooms available for this hotel.</p>
+}
+
+<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+<a asp-action="Index" class="btn btn-secondary">Back</a>
