@@ -1,8 +1,61 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="home-wrapper">
+    <div class="home-content">
+        <h1>Find Your Perfect Stay</h1>
+        <p>Browse our hotels, pick a room, and book in minutes.</p>
+
+        @if (User.Identity != null && User.Identity.IsAuthenticated)
+        {
+            <a asp-controller="CustomerBookings" asp-action="Index" class="btn btn-home">My Bookings</a>
+        }
+        else
+        {
+            <a asp-controller="Account" asp-action="Register" class="btn btn-home">Get Started</a>
+        }
+    </div>
 </div>
+
+<style>
+    .home-wrapper {
+        min-height: 85vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 2rem 1rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .home-content h1 {
+        color: #fff;
+        font-weight: 700;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .home-content p {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+    }
+
+    .btn-home {
+        background: #fff;
+        color: #764ba2;
+        border: none;
+        border-radius: 10px;
+        padding: 0.85rem 2rem;
+        font-weight: 700;
+        text-decoration: none;
+        display: inline-block;
+        transition: opacity 0.2s ease;
+    }
+
+        .btn-home:hover {
+            opacity: 0.9;
+            color: #764ba2;
+        }
+</style>

@@ -1,0 +1,205 @@
+﻿@model HotelBooking.ViewModels.AdminDashboardViewModel
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="dashboard-wrapper">
+    <div class="dashboard-header">
+        <h2>Admin Dashboard</h2>
+        <p>Overview of your hotel booking system</p>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon hotels-icon">🏨</div>
+            <div class="stat-info">
+                <span class="stat-value">@Model.TotalHotels</span>
+                <span class="stat-label">Hotels</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon rooms-icon">🛏️</div>
+            <div class="stat-info">
+                <span class="stat-value">@Model.TotalRooms</span>
+                <span class="stat-label">Total Rooms</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon active-icon">✅</div>
+            <div class="stat-info">
+                <span class="stat-value">@Model.ActiveRooms</span>
+                <span class="stat-label">Active Rooms</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon bookings-icon">📅</div>
+            <div class="stat-info">
+                <span class="stat-value">@Model.TotalBookings</span>
+                <span class="stat-label">Total Bookings</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon pending-icon">⏳</div>
+            <div class="stat-info">
+                <span class="stat-value">@Model.PendingBookings</span>
+                <span class="stat-label">Pending</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon confirmed-icon">✔️</div>
+            <div class="stat-info">
+                <span class="stat-value">@Model.ConfirmedBookings</span>
+                <span class="stat-label">Confirmed</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon users-icon">👥</div>
+            <div class="stat-info">
+                <span class="stat-value">@Model.TotalUsers</span>
+                <span class="stat-label">Guests</span>
+            </div>
+        </div>
+    </div>
+
+    <h4 class="quick-links-title">Quick Actions</h4>
+
+    <div class="quick-links">
+        <a asp-controller="AdminHotels" asp-action="Index" class="quick-link-card">
+            <span class="quick-link-icon">🏨</span>
+            <span class="quick-link-text">Manage Hotels</span>
+        </a>
+
+        <a asp-controller="AdminRooms" asp-action="Index" class="quick-link-card">
+            <span class="quick-link-icon">🛏️</span>
+            <span class="quick-link-text">Manage Rooms</span>
+        </a>
+
+        <a asp-controller="AdminBookings" asp-action="Index" class="quick-link-card">
+            <span class="quick-link-icon">📅</span>
+            <span class="quick-link-text">Manage Bookings</span>
+        </a>
+    </div>
+</div>
+
+<style>
+    .dashboard-wrapper {
+        padding: 2rem 1rem;
+        min-height: 85vh;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .dashboard-header {
+        margin-bottom: 2rem;
+    }
+
+        .dashboard-header h2 {
+            color: #fff;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+        }
+
+        .dashboard-header p {
+            color: rgba(255, 255, 255, 0.85);
+            margin: 0;
+        }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .stat-card {
+        background: #fff;
+        border-radius: 14px;
+        padding: 1.25rem 1.5rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .stat-icon {
+        font-size: 1.8rem;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        background: #f4f1fb;
+        flex-shrink: 0;
+    }
+
+    .stat-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .stat-value {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: #2d2d3a;
+        line-height: 1.1;
+    }
+
+    .stat-label {
+        font-size: 0.85rem;
+        color: #8a8a99;
+        margin-top: 0.2rem;
+    }
+
+    .quick-links-title {
+        color: #fff;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .quick-links {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1rem;
+    }
+
+    .quick-link-card {
+        background: #fff;
+        border-radius: 14px;
+        padding: 1.5rem;
+        text-align: center;
+        text-decoration: none;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        transition: transform 0.2s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.6rem;
+    }
+
+        .quick-link-card:hover {
+            transform: translateY(-4px);
+        }
+
+    .quick-link-icon {
+        font-size: 2rem;
+    }
+
+    .quick-link-text {
+        color: #2d2d3a;
+        font-weight: 600;
+    }
+
+    @@media (max-width: 576px) {
+        .stats-grid,
+        .quick-links {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+</style>
