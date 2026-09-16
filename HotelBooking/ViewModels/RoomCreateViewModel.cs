@@ -1,9 +1,11 @@
-﻿namespace HotelBooking.ViewModels
-{
-    public class RoomCreateViewModel
-    {
-        public Room Room { get; set; }
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
-        public List<Hotel> Hotels { get; set; }
-    }
+namespace HotelBooking.ViewModels;
+
+public class RoomCreateViewModel
+{
+    public Room Room { get; set; }
+
+    [ValidateNever]
+    public List<Hotel> Hotels { get; set; }
 }

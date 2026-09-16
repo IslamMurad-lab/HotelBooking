@@ -34,6 +34,12 @@
                             <li class="nav-item">
                                 <a class="nav-link nav-custom" asp-controller="AdminHotels" asp-action="Index">Manage Hotels</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav-custom" asp-controller="AdminRooms" asp-action="Index">Manage Rooms</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav-custom" asp-controller="AdminBookings" asp-action="Index">Manage Bookings</a>
+                            </li>
                         }
 
                         @if (User.Identity != null && User.Identity.IsAuthenticated && !User.IsInRole("Admin"))

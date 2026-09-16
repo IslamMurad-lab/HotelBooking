@@ -12,6 +12,7 @@
         </div>
 
         <form asp-action="Create" method="post" class="room-form">
+       
             @Html.AntiForgeryToken()
             <div asp-validation-summary="ModelOnly" class="alert alert-danger d-none-empty"></div>
 
