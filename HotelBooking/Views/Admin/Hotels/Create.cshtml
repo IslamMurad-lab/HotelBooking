@@ -1,0 +1,140 @@
+﻿@model HotelBooking.Models.Hotel
+
+@{
+    ViewData["Title"] = "Create Hotel";
+}
+
+<div class="hotel-wrapper">
+    <div class="hotel-card">
+        <div class="hotel-header">
+            <h2>Create Hotel</h2>
+            <p>Add a new hotel to the system</p>
+        </div>
+
+        <form asp-action="Create" method="post" enctype="multipart/form-data" class="hotel-form">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger d-none-empty"></div>
+
+            <div class="mb-3">
+                <label class="form-label">Hotel Image</label>
+                <input type="file" name="ImageFile" class="form-control" accept="image/*" />
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Name" class="form-control" placeholder="Hotel Name" />
+                <label asp-for="Name">Hotel Name</label>
+                <span asp-validation-for="Name" class="text-danger small"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Address" class="form-control" placeholder="Address" />
+                <label asp-for="Address">Address</label>
+                <span asp-validation-for="Address" class="text-danger small"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="City" class="form-control" placeholder="City" />
+                <label asp-for="City">City</label>
+                <span asp-validation-for="City" class="text-danger small"></span>
+            </div>
+
+            <div class="form-floating mb-4">
+                <textarea asp-for="Description" class="form-control" placeholder="Description" style="height: 100px"></textarea>
+                <label asp-for="Description">Description</label>
+                <span asp-validation-for="Description" class="text-danger small"></span>
+            </div>
+
+            <button type="submit" class="btn btn-hotel w-100">Create Hotel</button>
+        </form>
+
+        <div class="hotel-footer">
+            <a asp-action="Index">Back to Hotels</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+    .hotel-wrapper {
+        min-height: 85vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .hotel-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        padding: 2.5rem;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .hotel-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+        .hotel-header h2 {
+            font-weight: 700;
+            color: #2d2d3a;
+            margin-bottom: 0.4rem;
+        }
+
+        .hotel-header p {
+            color: #8a8a99;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+    .hotel-form .form-control {
+        border-radius: 10px;
+        border: 1px solid #e2e2ea;
+    }
+
+        .hotel-form .form-control:focus {
+            border-color: #764ba2;
+            box-shadow: 0 0 0 0.2rem rgba(118, 75, 162, 0.15);
+        }
+
+    .btn-hotel {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        padding: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        transition: opacity 0.2s ease;
+    }
+
+        .btn-hotel:hover {
+            opacity: 0.9;
+            color: #fff;
+        }
+
+    .hotel-footer {
+        text-align: center;
+        margin-top: 1.5rem;
+    }
+
+        .hotel-footer a {
+            color: #764ba2;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+            .hotel-footer a:hover {
+                text-decoration: underline;
+            }
+
+    .d-none-empty:empty {
+        display: none;
+    }
+</style>

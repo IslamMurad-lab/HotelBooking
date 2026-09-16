@@ -1,0 +1,136 @@
+﻿@model HotelBooking.Models.Booking
+
+@{
+    ViewData["Title"] = "Cancel Booking";
+}
+
+<div class="booking-wrapper">
+    <div class="booking-card">
+        <div class="booking-header">
+            <h2>Cancel Booking</h2>
+            <p>Are you sure you want to cancel this booking?</p>
+        </div>
+
+        <div class="cancel-info">
+            <p>
+                Booking ID:
+                <strong>@Model.Id</strong>
+            </p>
+
+            <p>
+                Hotel:
+                <strong>@Model.Room?.Hotel?.Name</strong>
+            </p>
+
+            <p>
+                Room:
+                <strong>@Model.Room?.RoomNumber</strong>
+            </p>
+
+            <p>
+                Check In:
+                <strong>@Model.CheckInDate.ToString("dd/MM/yyyy")</strong>
+            </p>
+
+            <p>
+                Check Out:
+                <strong>@Model.CheckOutDate.ToString("dd/MM/yyyy")</strong>
+            </p>
+
+            <p>
+                Total Price:
+                <strong>@Model.TotalPrice</strong>
+            </p>
+        </div>
+
+        <form asp-action="CancelConfirmed"
+              asp-route-id="@Model.Id"
+              method="post"
+              class="booking-form">
+
+            @Html.AntiForgeryToken()
+
+            <button type="submit" class="btn btn-danger w-100">
+                Cancel Booking
+            </button>
+        </form>
+
+        <div class="booking-footer">
+            <a asp-action="Index">Keep Booking</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .booking-wrapper {
+        min-height: 85vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .booking-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        padding: 2.5rem;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .booking-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+        .booking-header h2 {
+            font-weight: 700;
+            color: #2d2d3a;
+            margin-bottom: 0.4rem;
+        }
+
+        .booking-header p {
+            color: #8a8a99;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+    .cancel-info {
+        background: #f8f8fc;
+        border-radius: 10px;
+        padding: 1rem 1.25rem;
+        margin-bottom: 1.5rem;
+        color: #555;
+    }
+
+        .cancel-info p {
+            margin-bottom: 0.6rem;
+        }
+
+            .cancel-info p:last-child {
+                margin-bottom: 0;
+            }
+
+    .btn-danger {
+        border-radius: 10px;
+        padding: 0.85rem;
+        font-weight: 600;
+    }
+
+    .booking-footer {
+        text-align: center;
+        margin-top: 1.5rem;
+    }
+
+        .booking-footer a {
+            color: #764ba2;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+            .booking-footer a:hover {
+                text-decoration: underline;
+            }
+</style>

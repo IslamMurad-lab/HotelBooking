@@ -1,0 +1,231 @@
+﻿@model HotelBooking.Models.Hotel
+
+@{
+    ViewData["Title"] = "Hotel Details";
+}
+
+<div class="hotel-wrapper">
+    <div class="hotel-card hotel-card-wide">
+        @if (!string.IsNullOrEmpty(Model.ImagePath))
+        {
+            <img src="@Model.ImagePath" alt="@Model.Name" class="hotel-banner" />
+        }
+
+        <div class="hotel-header">
+            <h2>@Model.Name</h2>
+            <p>Hotel details and rooms</p>
+        </div>
+
+        <div class="hotel-details">
+            <div class="detail-row">
+                <span>Address</span>
+                <strong>@Model.Address</strong>
+            </div>
+
+            <div class="detail-row">
+                <span>City</span>
+                <strong>@Model.City</strong>
+            </div>
+
+            <div class="detail-row">
+                <span>Description</span>
+                <strong>@Model.Description</strong>
+            </div>
+
+            <div class="detail-row">
+                <span>Created At</span>
+                <strong>@Model.CreatedAt.ToString("dd/MM/yyyy")</strong>
+            </div>
+        </div>
+
+        <h4 class="rooms-title">Rooms</h4>
+
+        @if (Model.Rooms.Any())
+        {
+            <div class="table-responsive">
+                <table class="table rooms-table align-middle">
+                    <thead>
+                        <tr>
+                            <th>Room Number</th>
+                            <th>Type</th>
+                            <th>Price Per Night</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var room in Model.Rooms)
+                        {
+                            <tr>
+                                <td>@room.RoomNumber</td>
+                                <td>@room.Type</td>
+                                <td>@room.PricePerNight</td>
+                                <td>
+                                    @if (room.IsActive)
+                                    {
+                                        <span class="status active">Active</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="status inactive">Inactive</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p class="no-rooms">No rooms available for this hotel.</p>
+        }
+
+        <div class="hotel-actions">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-hotel">Edit</a>
+            <a asp-action="Index" class="btn btn-secondary">Back</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hotel-wrapper {
+        min-height: 85vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .hotel-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        padding: 2.5rem;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .hotel-card-wide {
+        max-width: 700px;
+    }
+
+    .hotel-banner {
+        width: 100%;
+        max-height: 250px;
+        object-fit: cover;
+        border-radius: 12px;
+        margin-bottom: 1.5rem;
+    }
+
+    .hotel-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+        .hotel-header h2 {
+            font-weight: 700;
+            color: #2d2d3a;
+            margin-bottom: 0.4rem;
+        }
+
+        .hotel-header p {
+            color: #8a8a99;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+    .hotel-details {
+        background: #f8f8fc;
+        border-radius: 12px;
+        padding: 1rem 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .detail-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.85rem 0;
+        border-bottom: 1px solid #e2e2ea;
+    }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-row span:first-child {
+            color: #8a8a99;
+        }
+
+        .detail-row strong {
+            color: #2d2d3a;
+            text-align: right;
+        }
+
+    .rooms-title {
+        font-weight: 700;
+        color: #2d2d3a;
+        margin-bottom: 1rem;
+    }
+
+    .rooms-table thead th {
+        color: #2d2d3a;
+        font-weight: 700;
+        border-bottom: 2px solid #e2e2ea;
+    }
+
+    .rooms-table tbody td {
+        color: #555;
+        vertical-align: middle;
+    }
+
+    .status {
+        display: inline-block;
+        padding: 0.35rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+
+        .status.active {
+            background: #d1fae5;
+            color: #047857;
+        }
+
+        .status.inactive {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+    .no-rooms {
+        color: #8a8a99;
+        text-align: center;
+        padding: 1.5rem 0;
+    }
+
+    .hotel-actions {
+        display: flex;
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+    }
+
+        .hotel-actions .btn {
+            flex: 1;
+            border-radius: 10px;
+            padding: 0.75rem;
+            font-weight: 600;
+        }
+
+    .btn-hotel {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        border: none;
+    }
+
+        .btn-hotel:hover {
+            opacity: 0.9;
+            color: #fff;
+        }
+</style>

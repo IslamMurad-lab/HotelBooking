@@ -1,0 +1,156 @@
+﻿@model HotelBooking.Models.Booking
+@{
+    ViewData["Title"] = "New Booking";
+    var rooms = ViewBag.Rooms as List<HotelBooking.Models.Room>;
+}
+
+<div class="booking-wrapper">
+    <div class="booking-card">
+        <div class="booking-header">
+            <h2>New Booking</h2>
+            <p>Book a room for your stay</p>
+        </div>
+
+        <form asp-action="Create" method="post" class="booking-form">
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly"
+                 class="alert alert-danger d-none-empty"></div>
+
+            <div class="form-floating mb-3">
+                <select asp-for="RoomId" class="form-select">
+                    <option value="">Select Room</option>
+
+                    @if (rooms != null)
+                    {
+                    foreach (var room in rooms)
+                        {
+                    <option value="@room.Id">
+                        @room.Hotel?.Name - Room @room.RoomNumber - @room.Type - @room.PricePerNight / night
+                    </option>
+                        }
+                    }
+                </select>
+
+                <label asp-for="RoomId">Room</label>
+                <span asp-validation-for="RoomId" class="text-danger small"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="CheckInDate"
+                       type="date"
+                       class="form-control" />
+
+                <label asp-for="CheckInDate">Check In</label>
+                <span asp-validation-for="CheckInDate" class="text-danger small"></span>
+            </div>
+
+            <div class="form-floating mb-4">
+                <input asp-for="CheckOutDate"
+                       type="date"
+                       class="form-control" />
+
+                <label asp-for="CheckOutDate">Check Out</label>
+                <span asp-validation-for="CheckOutDate" class="text-danger small"></span>
+            </div>
+
+            <button type="submit" class="btn btn-booking w-100">
+                Create Booking
+            </button>
+        </form>
+
+        <div class="booking-footer">
+            <a asp-action="Index">Back to My Bookings</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<style>
+    .booking-wrapper {
+        min-height: 85vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .booking-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        padding: 2.5rem;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .booking-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+        .booking-header h2 {
+            font-weight: 700;
+            color: #2d2d3a;
+            margin-bottom: 0.4rem;
+        }
+
+        .booking-header p {
+            color: #8a8a99;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+    .booking-form .form-control,
+    .booking-form .form-select {
+        border-radius: 10px;
+        border: 1px solid #e2e2ea;
+    }
+
+        .booking-form .form-control:focus,
+        .booking-form .form-select:focus {
+            border-color: #764ba2;
+            box-shadow: 0 0 0 0.2rem rgba(118, 75, 162, 0.15);
+        }
+
+    .btn-booking {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        padding: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        transition: opacity 0.2s ease;
+    }
+
+        .btn-booking:hover {
+            opacity: 0.9;
+            color: #fff;
+        }
+
+    .booking-footer {
+        text-align: center;
+        margin-top: 1.5rem;
+    }
+
+        .booking-footer a {
+            color: #764ba2;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+            .booking-footer a:hover {
+                text-decoration: underline;
+            }
+
+    .d-none-empty:empty {
+        display: none;
+    }
+</style>

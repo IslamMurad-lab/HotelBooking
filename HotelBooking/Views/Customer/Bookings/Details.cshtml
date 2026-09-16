@@ -1,0 +1,221 @@
+﻿@model HotelBooking.Models.Booking
+
+@{
+    ViewData["Title"] = "Booking Details";
+}
+
+<div class="booking-wrapper">
+    <div class="booking-card">
+        <div class="booking-header">
+            <h2>Booking Details</h2>
+            <p>View your booking information</p>
+        </div>
+
+        <div class="booking-details">
+            <div class="detail-row">
+                <span>Booking ID</span>
+                <strong>@Model.Id</strong>
+            </div>
+
+            <div class="detail-row">
+                <span>Hotel</span>
+                <strong>@Model.Room?.Hotel?.Name</strong>
+            </div>
+
+            <div class="detail-row">
+                <span>Room</span>
+                <strong>@Model.Room?.RoomNumber</strong>
+            </div>
+
+            <div class="detail-row">
+                <span>Room Type</span>
+                <strong>@Model.Room?.Type</strong>
+            </div>
+
+            <div class="detail-row">
+                <span>Check In</span>
+                <strong>@Model.CheckInDate.ToString("dd/MM/yyyy")</strong>
+            </div>
+
+            <div class="detail-row">
+                <span>Check Out</span>
+                <strong>@Model.CheckOutDate.ToString("dd/MM/yyyy")</strong>
+            </div>
+
+            <div class="detail-row">
+                <span>Total Price</span>
+                <strong>@Model.TotalPrice</strong>
+            </div>
+
+            <div class="detail-row">
+                <span>Status</span>
+
+                @if (Model.Status == "Confirmed")
+                {
+                <span class="status confirmed">Confirmed</span>
+                }
+                else if (Model.Status == "Cancelled")
+                {
+                <span class="status cancelled">Cancelled</span>
+                }
+                else if (Model.Status == "Completed")
+                {
+                <span class="status completed">Completed</span>
+                }
+                else
+                {
+                <span class="status pending">Pending</span>
+                }
+            </div>
+
+            <div class="detail-row">
+                <span>Created At</span>
+                <strong>@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</strong>
+            </div>
+        </div>
+
+        <div class="booking-actions">
+            @if (Model.Status != "Cancelled" &&
+                 Model.Status != "Completed")
+            {
+            <a asp-action="Cancel"
+               asp-route-id="@Model.Id"
+               class="btn btn-danger">
+                Cancel Booking
+            </a>
+            }
+
+            <a asp-action="Index"
+               class="btn btn-secondary">
+                Back
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .booking-wrapper {
+        min-height: 85vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .booking-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        padding: 2.5rem;
+        width: 100%;
+        max-width: 600px;
+    }
+
+    .booking-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+        .booking-header h2 {
+            font-weight: 700;
+            color: #2d2d3a;
+            margin-bottom: 0.4rem;
+        }
+
+        .booking-header p {
+            color: #8a8a99;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+    .booking-details {
+        background: #f8f8fc;
+        border-radius: 12px;
+        padding: 1rem 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .detail-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.85rem 0;
+        border-bottom: 1px solid #e2e2ea;
+    }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-row span:first-child {
+            color: #8a8a99;
+        }
+
+        .detail-row strong {
+            color: #2d2d3a;
+            text-align: right;
+        }
+
+    .status {
+        display: inline-block;
+        padding: 0.35rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+
+        .status.pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status.confirmed {
+            background: #d1fae5;
+            color: #047857;
+        }
+
+        .status.cancelled {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .status.completed {
+            background: #e0e7ff;
+            color: #4338ca;
+        }
+
+    .booking-actions {
+        display: flex;
+        gap: 0.75rem;
+    }
+
+        .booking-actions .btn {
+            flex: 1;
+            border-radius: 10px;
+            padding: 0.75rem;
+            font-weight: 600;
+        }
+
+    .btn-danger {
+        border-radius: 10px;
+        font-weight: 600;
+    }
+
+    @@media (max-width: 576px) {
+        .booking-card {
+            padding: 1.5rem;
+        }
+
+        .detail-row {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+            .detail-row strong {
+                text-align: left;
+            }
+    }
+</style>
