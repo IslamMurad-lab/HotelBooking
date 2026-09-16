@@ -4,38 +4,196 @@
     ViewData["Title"] = "Hotels";
 }
 
-<h2>Hotels</h2>
+<div class="hotels-wrapper">
+    <div class="hotels-header">
+        <div>
+            <h2>Hotels</h2>
+            <p>Manage all hotels</p>
+        </div>
 
-<a asp-action="Create" class="btn btn-primary">Add New Hotel</a>
+        <a asp-action="Create" class="btn btn-hotel">
+            Add New Hotel
+        </a>
+    </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Address</th>
-            <th>City</th>
-            <th>Description</th>
-            <th>Created At</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var hotel in Model)
-        {
-            <tr>
-                <td>@hotel.Id</td>
-                <td>@hotel.Name</td>
-                <td>@hotel.Address</td>
-                <td>@hotel.City</td>
-                <td>@hotel.Description</td>
-                <td>@hotel.CreatedAt</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@hotel.Id" class="btn btn-info">Details</a>
-                    <a asp-action="Edit" asp-route-id="@hotel.Id" class="btn btn-warning">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@hotel.Id" class="btn btn-danger">Delete</a>
-                </td>
-            </tr>
+    <div class="hotels-card">
+        <div class="table-responsive">
+            <table class="table hotels-table align-middle">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>City</th>
+                        <th>Created At</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var hotel in Model)
+                    {
+                        <tr>
+                            <td>
+                                @if (!string.IsNullOrEmpty(hotel.ImagePath))
+                                {
+                                    <img src="@hotel.ImagePath" alt="@hotel.Name" class="hotel-thumb" />
+                                }
+                                else
+                                {
+                                    <span class="text-muted">No image</span>
+                                }
+                            </td>
+                            <td>@hotel.Id</td>
+                            <td>@hotel.Name</td>
+                            <td>@hotel.Address</td>
+                            <td>@hotel.City</td>
+                            <td>@hotel.CreatedAt.ToString("dd/MM/yyyy")</td>
+
+                            <td>
+                                <div class="action-buttons">
+                                    <a asp-action="Details"
+                                       asp-route-id="@hotel.Id"
+                                       class="btn btn-sm btn-details">
+                                        Details
+                                    </a>
+
+                                    <a asp-action="Edit"
+                                       asp-route-id="@hotel.Id"
+                                       class="btn btn-sm btn-edit">
+                                        Edit
+                                    </a>
+
+                                    <a asp-action="Delete"
+                                       asp-route-id="@hotel.Id"
+                                       class="btn btn-sm btn-delete">
+                                        Delete
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hotels-wrapper {
+        padding: 2rem 1rem;
+        min-height: 85vh;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .hotels-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+        .hotels-header h2 {
+            color: #fff;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
         }
-    </tbody>
-</table>
+
+        .hotels-header p {
+            color: rgba(255, 255, 255, 0.85);
+            margin: 0;
+        }
+
+    .hotels-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        padding: 1.5rem;
+    }
+
+    .hotels-table {
+        margin-bottom: 0;
+        white-space: nowrap;
+    }
+
+        .hotels-table thead th {
+            color: #2d2d3a;
+            font-weight: 700;
+            border-bottom: 2px solid #e2e2ea;
+        }
+
+        .hotels-table tbody td {
+            color: #555;
+            vertical-align: middle;
+        }
+
+        .hotels-table tbody tr:hover {
+            background-color: #f8f8fc;
+        }
+
+    .hotel-thumb {
+        width: 60px;
+        height: 45px;
+        object-fit: cover;
+        border-radius: 6px;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 0.4rem;
+        flex-wrap: wrap;
+    }
+
+        .action-buttons .btn {
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+    .btn-hotel {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        padding: 0.75rem 1.2rem;
+        font-weight: 600;
+    }
+
+        .btn-hotel:hover {
+            opacity: 0.9;
+            color: #fff;
+        }
+
+    .btn-details {
+        background: #e0e7ff;
+        color: #4338ca;
+    }
+
+    .btn-edit {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .btn-delete {
+        background: #fee2e2;
+        color: #b91c1c;
+    }
+
+        .btn-details:hover,
+        .btn-edit:hover,
+        .btn-delete:hover {
+            opacity: 0.85;
+        }
+
+    @@media (max-width: 768px) {
+        .hotels-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .hotels-card {
+            padding: 1rem;
+        }
+    }
+</style>
