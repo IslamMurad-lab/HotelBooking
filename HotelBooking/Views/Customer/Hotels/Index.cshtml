@@ -1,0 +1,160 @@
+﻿@model List<HotelBooking.Models.Hotel>
+
+@{
+    ViewData["Title"] = "Hotels";
+    var selectedCity = ViewBag.SelectedCity as string;
+    var cities = ViewBag.Cities as List<string>;
+}
+
+<div class="hotels-wrapper">
+    <div class="hotels-header">
+        <div>
+            <h2>Explore Hotels</h2>
+            <p>Find the perfect hotel for your next stay</p>
+        </div>
+    </div>
+
+    <form method="get" class="filter-bar">
+        <select name="city" class="form-select" onchange="this.form.submit()">
+            <option value="">All Cities</option>
+            @if (cities != null)
+            {
+                foreach (var city in cities)
+                {
+                    <option value="@city" selected="@(city == selectedCity)">@city</option>
+                }
+            }
+        </select>
+    </form>
+
+    @if (Model.Any())
+    {
+        <div class="hotels-grid">
+            @foreach (var hotel in Model)
+            {
+                <a asp-action="Details" asp-route-id="@hotel.Id" class="hotel-card">
+                    @if (!string.IsNullOrEmpty(hotel.ImagePath))
+                    {
+                        <img src="@hotel.ImagePath" alt="@hotel.Name" class="hotel-image" />
+                    }
+                    else
+                    {
+                        <div class="hotel-image hotel-image-placeholder">🏨</div>
+                    }
+
+                    <div class="hotel-info">
+                        <h3>@hotel.Name</h3>
+                        <p class="hotel-city">📍 @hotel.City</p>
+                        <p class="hotel-address">@hotel.Address</p>
+                    </div>
+                </a>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <p>No hotels found.</p>
+        </div>
+    }
+</div>
+
+<style>
+    .hotels-wrapper {
+        padding: 2rem 1rem;
+        min-height: 85vh;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .hotels-header {
+        margin-bottom: 1.5rem;
+    }
+
+        .hotels-header h2 {
+            color: #fff;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+        }
+
+        .hotels-header p {
+            color: rgba(255, 255, 255, 0.85);
+            margin: 0;
+        }
+
+    .filter-bar {
+        margin-bottom: 1.5rem;
+        max-width: 250px;
+    }
+
+        .filter-bar .form-select {
+            border-radius: 10px;
+            border: none;
+            padding: 0.6rem 1rem;
+        }
+
+    .hotels-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .hotel-card {
+        background: #fff;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        text-decoration: none;
+        transition: transform 0.2s ease;
+        display: block;
+    }
+
+        .hotel-card:hover {
+            transform: translateY(-4px);
+        }
+
+    .hotel-image {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+    }
+
+    .hotel-image-placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f4f1fb;
+        font-size: 3rem;
+    }
+
+    .hotel-info {
+        padding: 1.25rem;
+    }
+
+        .hotel-info h3 {
+            color: #2d2d3a;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+            font-size: 1.15rem;
+        }
+
+    .hotel-city {
+        color: #764ba2;
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .hotel-address {
+        color: #8a8a99;
+        font-size: 0.85rem;
+        margin: 0;
+    }
+
+    .empty-state {
+        background: #fff;
+        border-radius: 16px;
+        padding: 3rem;
+        text-align: center;
+        color: #8a8a99;
+    }
+</style>

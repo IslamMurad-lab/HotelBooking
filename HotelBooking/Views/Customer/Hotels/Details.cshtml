@@ -1,0 +1,246 @@
+﻿@model HotelBooking.Models.Hotel
+
+@{
+    ViewData["Title"] = Model.Name;
+    var rooms = ViewBag.FilteredRooms as List<HotelBooking.Models.Room>;
+    var types = ViewBag.Types as List<string>;
+    var selectedType = ViewBag.SelectedType as string;
+    var isLoggedIn = User.Identity != null && User.Identity.IsAuthenticated;
+}
+
+<div class="hotel-details-wrapper">
+    <div class="hotel-banner-section">
+        @if (!string.IsNullOrEmpty(Model.ImagePath))
+        {
+            <img src="@Model.ImagePath" alt="@Model.Name" class="hotel-banner" />
+        }
+        else
+        {
+            <div class="hotel-banner hotel-banner-placeholder">🏨</div>
+        }
+
+        <div class="hotel-banner-overlay">
+            <h1>@Model.Name</h1>
+            <p>📍 @Model.Address, @Model.City</p>
+        </div>
+    </div>
+
+    <div class="hotel-content">
+        @if (!string.IsNullOrEmpty(Model.Description))
+        {
+            <p class="hotel-description">@Model.Description</p>
+        }
+
+        <div class="rooms-section">
+            <div class="rooms-header">
+                <h3>Available Rooms</h3>
+
+                <form method="get" class="filter-bar">
+                    <select name="type" class="form-select" onchange="this.form.submit()">
+                        <option value="">All Types</option>
+                        @if (types != null)
+                        {
+                            foreach (var type in types)
+                            {
+                                <option value="@type" selected="@(type == selectedType)">@type</option>
+                            }
+                        }
+                    </select>
+                </form>
+            </div>
+
+            @if (rooms != null && rooms.Any())
+            {
+                <div class="rooms-grid">
+                    @foreach (var room in rooms)
+                    {
+                        <div class="room-card">
+                            <div class="room-card-header">
+                                <span class="room-type">@room.Type</span>
+                                <span class="room-price">@room.PricePerNight / night</span>
+                            </div>
+                            <p class="room-number">Room @room.RoomNumber</p>
+
+                            @if (isLoggedIn)
+                            {
+                                <a asp-controller="CustomerBookings" asp-action="Create" asp-route-roomId="@room.Id" class="btn btn-book">
+                                    Book Now
+                                </a>
+                            }
+                            else
+                            {
+                                <a asp-controller="Account" asp-action="Login" class="btn btn-book">
+                                    Login to Book
+                                </a>
+                            }
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="empty-state">
+                    <p>No rooms available for this hotel right now.</p>
+                </div>
+            }
+        </div>
+
+        <a asp-action="Index" class="back-link">← Back to Hotels</a>
+    </div>
+</div>
+
+<style>
+    .hotel-details-wrapper {
+        min-height: 85vh;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding-bottom: 3rem;
+    }
+
+    .hotel-banner-section {
+        position: relative;
+        height: 320px;
+    }
+
+    .hotel-banner {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .hotel-banner-placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.15);
+        font-size: 5rem;
+    }
+
+    .hotel-banner-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.65), transparent);
+        padding: 2rem;
+        color: #fff;
+    }
+
+        .hotel-banner-overlay h1 {
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .hotel-banner-overlay p {
+            margin: 0;
+            opacity: 0.9;
+        }
+
+    .hotel-content {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 2rem 1rem 0;
+    }
+
+    .hotel-description {
+        background: #fff;
+        border-radius: 16px;
+        padding: 1.5rem;
+        color: #555;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+    }
+
+    .rooms-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.25rem;
+        flex-wrap: wrap;
+    }
+
+        .rooms-header h3 {
+            color: #fff;
+            font-weight: 700;
+            margin: 0;
+        }
+
+    .filter-bar .form-select {
+        border-radius: 10px;
+        border: none;
+        padding: 0.5rem 1rem;
+    }
+
+    .rooms-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .room-card {
+        background: #fff;
+        border-radius: 14px;
+        padding: 1.25rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .room-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .room-type {
+        font-weight: 700;
+        color: #2d2d3a;
+    }
+
+    .room-price {
+        color: #764ba2;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    .room-number {
+        color: #8a8a99;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+
+    .btn-book {
+        display: block;
+        text-align: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        border-radius: 10px;
+        padding: 0.6rem;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+        .btn-book:hover {
+            opacity: 0.9;
+            color: #fff;
+        }
+
+    .empty-state {
+        background: #fff;
+        border-radius: 16px;
+        padding: 2rem;
+        text-align: center;
+        color: #8a8a99;
+        margin-bottom: 2rem;
+    }
+
+    .back-link {
+        color: #fff;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+</style>

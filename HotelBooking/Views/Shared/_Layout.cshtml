@@ -27,7 +27,11 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link nav-custom" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+
                         </li>
+                            <li class="nav-item">
+        <a class="nav-link nav-custom" asp-controller="CustomerHotels" asp-action="Index">Browse Hotels</a>
+    </li>
 
                         @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                         {
