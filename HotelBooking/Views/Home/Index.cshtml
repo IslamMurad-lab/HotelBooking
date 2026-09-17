@@ -7,14 +7,18 @@
         <h1>Find Your Perfect Stay</h1>
         <p>Browse our hotels, pick a room, and book in minutes.</p>
 
-        @if (User.Identity != null && User.Identity.IsAuthenticated)
-        {
-            <a asp-controller="CustomerBookings" asp-action="Index" class="btn btn-home">My Bookings</a>
-        }
-        else
-        {
-            <a asp-controller="Account" asp-action="Register" class="btn btn-home">Get Started</a>
-        }
+        <div class="home-actions">
+            <a asp-controller="CustomerHotels" asp-action="Index" class="btn btn-home">Browse Hotels</a>
+
+            @if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                <a asp-controller="CustomerBookings" asp-action="Index" class="btn btn-home-outline">My Bookings</a>
+            }
+            else
+            {
+                <a asp-controller="Account" asp-action="Register" class="btn btn-home-outline">Get Started</a>
+            }
+        </div>
     </div>
 </div>
 
@@ -42,6 +46,13 @@
         margin-bottom: 2rem;
     }
 
+    .home-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
     .btn-home {
         background: #fff;
         color: #764ba2;
@@ -57,5 +68,22 @@
         .btn-home:hover {
             opacity: 0.9;
             color: #764ba2;
+        }
+
+    .btn-home-outline {
+        background: transparent;
+        color: #fff;
+        border: 2px solid #fff;
+        border-radius: 10px;
+        padding: 0.8rem 2rem;
+        font-weight: 700;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.2s ease;
+    }
+
+        .btn-home-outline:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
         }
 </style>
