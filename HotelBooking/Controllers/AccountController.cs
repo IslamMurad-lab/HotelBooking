@@ -15,14 +15,13 @@ public class AccountController : Controller
         _passwordHasher = passwordHasher;
     }
 
-    // GET: /Account/Register
+
     [HttpGet]
     public IActionResult Register()
     {
         return View();
     }
 
-    // POST: /Account/Register
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Register(RegisterViewModel model)
@@ -30,11 +29,10 @@ public class AccountController : Controller
         if (!ModelState.IsValid)
             return View(model);
 
-        // تأكد إن الإيميل مش مستخدم قبل كده
         bool emailExists = await _context.Users.AnyAsync(u => u.Email == model.Email);
         if (emailExists)
         {
-            ModelState.AddModelError(nameof(model.Email), "البريد الإلكتروني مستخدم بالفعل");
+            ModelState.AddModelError(nameof(model.Email), "The Email Is Already Registered");
             return View(model);
         }
 
@@ -42,7 +40,7 @@ public class AccountController : Controller
         {
             Name = model.Name,
             Email = model.Email,
-            Role = "Guest" // كل المسجلين الجدد Guest افتراضيًا
+            Role = "Guest" 
         };
 
         user.PasswordHash = _passwordHasher.HashPassword(user, model.Password);
@@ -55,14 +53,14 @@ public class AccountController : Controller
         return RedirectToAction("Index", "Home");
     }
 
-    // GET: /Account/Login
+   
     [HttpGet]
     public IActionResult Login()
     {
         return View();
     }
 
-    // POST: /Account/Login
+  
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(LoginViewModel model)
@@ -89,7 +87,7 @@ public class AccountController : Controller
         return RedirectToAction("Index", "Home");
     }
 
-    // POST: /Account/Logout
+  
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Logout()
@@ -98,14 +96,12 @@ public class AccountController : Controller
         return RedirectToAction("Index", "Home");
     }
 
-    // GET: /Account/AccessDenied
     [HttpGet]
     public IActionResult AccessDenied()
     {
         return View();
     }
 
-    // Helper: تسجيل الدخول عبر Cookie
     private async Task SignInUser(User user, bool rememberMe = false)
     {
         var claims = new List<Claim>

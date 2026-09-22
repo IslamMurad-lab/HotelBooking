@@ -14,11 +14,11 @@ public class Booking
     public decimal TotalPrice { get; set; }
 
     [Required, MaxLength(30)]
-    public string Status { get; set; } = "Pending"; // Pending, Confirmed, Cancelled, Completed
+    public string Status { get; set; } = "Pending"; 
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-    // FKs
+ 
     public int UserId { get; set; }
     [ForeignKey(nameof(UserId))]
     public User? User { get; set; }

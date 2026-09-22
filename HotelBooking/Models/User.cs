@@ -14,10 +14,9 @@ public class User
     public string PasswordHash { get; set; }
 
     [Required]
-    public string Role { get; set; } // "Guest" or "Admin"
+    public string Role { get; set; } 
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-    // Navigation
     public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 }
